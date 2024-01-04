@@ -1,25 +1,40 @@
-// 프로토타입 체인 이해
-// JavaScript에서 모든 객체는 자신의 프로토타입을 참조하는 내부 링크인 __proto__를 가집니다. 
-// 이 __proto__ 링크를 따라가면 여러 객체들이 연결된 프로토타입 체인을 형성하게 됩니다. 
-// 이러한 프로토타입 체인을 통해 객체는 상위 프로토타입의 속성과 메서드를 상속받을 수 있습니다.
+// 상속과 프로토타입을 사용한 메서드 재사용
+// JavaScript에서는 프로토타입 체인을 활용하여 객체 간에 메서드를 재사용할 수 있습니다. 
+// 부모 객체의 메서드를 자식 객체가 상속받아 사용할 수 있습니다.
 
-// prototype 프로퍼티와 __proto__ 속성
-// prototype 프로퍼티: 함수 객체에는 prototype이라는 프로퍼티가 있습니다. 
-// 이 prototype은 함수를 통해 생성된 객체의 프로토타입 객체를 참조합니다. 
-// 이를 통해 함수를 통해 생성된 모든 객체들이 공통된 메서드나 속성을 공유할 수 있습니다.
-
-function Person(name) {
+// 부모 객체
+function Animal(name) {
   this.name = name;
 }
 
-Person.prototype.greet = function() {
-  console.log('Hello, ' + this.name);
+// 부모 객체의 메서드
+Animal.prototype.walk = function() {
+  console.log(this.name + ' is walking.');
 };
 
-const john = new Person('John');
-john.greet(); // 'Hello, John'
+// 자식 객체
+function Bird(name) {
+  Animal.call(this, name); // 부모 객체의 생성자 호출
+}
 
-// __proto__ 속성: 모든 객체는 __proto__ 속성을 가지며, 이는 해당 객체의 프로토타입을 참조합니다.
+// Bird 객체가 Animal 객체를 상속받음
+Bird.prototype = Object.create(Animal.prototype);
 
-const person = {};
-console.log(person.__proto__ === Object.prototype); // true
+// 자식 객체의 메서드
+Bird.prototype.fly = function() {
+  console.log(this.name + ' is flying.');
+};
+
+const bird = new Bird('Sparrow');
+bird.walk(); // 'Sparrow is walking.'
+bird.fly(); // 'Sparrow is flying.'
+
+// 위의 예제에서 Bird 객체는 Animal 객체의 메서드인 walk를 상속받았습니다. 
+// Object.create() 메서드를 사용하여 Bird.prototype이 Animal.prototype을 상속받도록 설정했습니다.
+
+// 이러한 방식으로 프로토타입과 상속을 활용하면 코드의 재사용성과 유지보수성을 높일 수 있습니다.
+
+
+
+
+
