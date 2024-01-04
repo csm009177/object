@@ -10,3 +10,10 @@ function Person(name, age) {
 }
 
 const john = new Person('John', 30);
+const cain = new Person('cain', 33);
+
+console.log(john)
+john.greet()
+console.log(cain)
+cain.greet()
+
